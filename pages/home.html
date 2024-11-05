@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset='utf-8' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+      });
+
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        axios.get("https://localhost:7295/api/Events").then((res) => {
+          var calendarEl = document.getElementById("calendar");
+          var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: "dayGridMonth",
+            events: res.data,
+          });
+          calendar.render();
+        });
+      });
+  </script>
+
+  </head>
+  <body>
+    <button onclick="addEvent()">הוסף אירוע</button>
+    <button onclick="deleteEvent()">מחק אירוע</button>
+    <button onclick="updateEvent()">עדכן אירוע</button>
+    <p>request-result:</p>
+    <div id="request-result"></div>
+  
+    <script>
+      function addEvent()
+      {
+        axios.post("https://localhost:7295/api/Events",
+        {
+          title:"moshe",
+          start:"now"
+        }
+        )
+        .then((res)=>{
+          document.getElementById("request-result").innerText=
+          "moshe"
+        })
+      }
+  
+      function deleteEvent()
+      {
+       
+      }
+  
+      function updateEvent()
+      {
+        axios.put(`https://localhost:7295/api/Events/5`,{
+          title:"moshe",
+          start:"start"
+        })
+        .then((res)=>{
+          document.getElementById("request-result").innerHTML="moshe";
+        })
+      }
+  
+    </script>
+    <div id='calendar'></div>
+  </body>
+</html>
